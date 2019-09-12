@@ -66,11 +66,13 @@ void Framework::Init(int width, int height)
     WGL_InitExtensions();
 }
 
-int Framework::Run()
+int Framework::Run(GameCore* pGame)
 {
     // Main loop.
     MSG message;
     bool done = false;
+
+    pGame->Init();
 
     while( !done )
     {
@@ -90,6 +92,8 @@ int Framework::Run()
         {
             glClearColor(1.0f, 1.0f, 0.0f, 1.0f); //set clear color to white
             glClear(GL_COLOR_BUFFER_BIT); //clears screen
+            pGame->Update();
+            pGame->Draw();
             SwapBuffers();
         }
     }

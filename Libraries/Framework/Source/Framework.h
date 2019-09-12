@@ -3,6 +3,8 @@
 
 namespace fw {
 
+class GameCore;
+
 class Framework
 {
 protected:
@@ -36,7 +38,7 @@ public:
     Framework();
 
     void Init(int width, int height);
-    int Run();
+    int Run(GameCore* pGame);
     void Shutdown();
 
     void SetWindowSize(int width, int height);
