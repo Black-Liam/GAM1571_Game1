@@ -14,12 +14,12 @@ project "Game"
 	kind "WindowedApp"
 	language "C++"
 	files {
-	"Game/Source/**.cpp",
-	"Game/Source/**.h",
+	"Source/**.cpp",
+	"Source/**.h",
 	"premake5.lua",
 	}
 	includedirs {
-		"Game/Source",
+		"Source",
 	}
 	links {
 		"Framework",

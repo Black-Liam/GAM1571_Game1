@@ -24,5 +24,6 @@
 #include "GL/WGLExtensions.h"
 
 #include "Framework.h"
+#include "GameCore.h"
 
 #endif //__FrameworkPCH_H__

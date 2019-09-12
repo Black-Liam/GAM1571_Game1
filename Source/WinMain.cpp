@@ -1,6 +1,6 @@
 #include <Windows.h>
 
-#include "../../Libraries/Framework/Source/FrameworkPCH.h"
+#include "../Libraries/Framework/Source/FrameworkPCH.h"
 
 using namespace fw;
 
