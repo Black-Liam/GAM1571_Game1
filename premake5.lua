@@ -16,6 +16,8 @@ project "Game"
 	files {
 	"Source/**.cpp",
 	"Source/**.h",
+	"Source/**.frag",
+	"Source/**.vert",
 	"premake5.lua",
 	}
 	includedirs {

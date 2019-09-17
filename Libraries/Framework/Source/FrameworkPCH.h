@@ -25,5 +25,7 @@
 
 #include "Framework.h"
 #include "GameCore.h"
+#include "Utility/ShaderProgram.h"
+#include "Utility/Helpers.h"
 
 #endif //__FrameworkPCH_H__
