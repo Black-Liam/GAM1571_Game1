@@ -1,11 +1,15 @@
 #pragma once
 
+#include "FrameworkPCH.h"
+
 namespace fw {
 
     class GameCore
     {
+    protected:
+        Framework* m_pFramework;
     public:
-        GameCore();
+        GameCore(Framework* pFramework);
         ~GameCore();
         virtual void Init() = 0;
         virtual void Update() = 0;

@@ -1,7 +1,7 @@
 #include "GameCore.h"
 
 namespace fw {
-    GameCore::GameCore()
+    GameCore::GameCore(Framework* pFramework)
     {
 
     }

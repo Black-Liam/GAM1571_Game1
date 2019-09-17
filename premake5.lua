@@ -13,6 +13,7 @@ project "Game"
 	location "build/Game"
 	kind "WindowedApp"
 	language "C++"
+	debugdir "Source"
 	files {
 	"Source/**.cpp",
 	"Source/**.h",
