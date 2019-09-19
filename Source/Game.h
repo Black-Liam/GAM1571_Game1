@@ -15,6 +15,7 @@ public:
     void Update() override;
     void Draw() override;
     float m_timer = 0.0f;
+    float m_right = 0.0f;
     float m_up = 0.0f;
     
     
