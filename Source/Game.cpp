@@ -23,19 +23,23 @@ void Game::Init()
     // Set this VBO to be the currently active one.
     glBindBuffer( GL_ARRAY_BUFFER, m_VBO );
     // Define our triangle as 3 positions.
-    float attribs[] =  
-    { 
-        -20.0,   0.0,   0.0,    1.0,    1.0,    1.0,
-        0.0,    40.0,   1.0,    0.0,    1.0,    1.0,
-        20.0,    0.0,   1.0,    1.0,    0.0,    1.0,
+
+    VertexFormat attribs[] =
+    {
+    VertexFormat( 0.0f,     0.0f,   0x80,   0x80,   0x80,   0xFF),
+    VertexFormat(-50.0f,    0.0f,   0x00,   0xBC,   0x8A,   0xFF),
+    VertexFormat( 0.0f,     50.0f,  0xF0,   0xF7,   0x09,   0xFF),
+    VertexFormat( 50.0f,    0.0f,   0xEB,   0x34,   0x0A,   0xFF),
+    VertexFormat( 0.0f,    -50.0f,  0x7E,   0x07,   0x85,   0xFF),
+    VertexFormat(-50.0f,    0.0f,   0x00,   0xBC,   0x8A,   0xFF),
     };
     // Copy our attribute data into the VBO.
-    glBufferData( GL_ARRAY_BUFFER, sizeof(float)*18, attribs, GL_STATIC_DRAW ); //6 -> 18
+    glBufferData( GL_ARRAY_BUFFER, sizeof(VertexFormat)*6, attribs, GL_STATIC_DRAW ); //vertex size * number of vertexes
 }
 
 void Game::Update()
 {
-    m_timer += 0.05f;
+    //m_timer += 0.1f;
     if (m_pFramework->IsKeyDown(VK_UP))
     {
         m_up += 0.01f;
@@ -44,8 +48,7 @@ void Game::Update()
     {
         m_up -= 0.01f;
     }
-
-    if (m_pFramework->IsKeyDown(VK_RIGHT))
+    else if (m_pFramework->IsKeyDown(VK_RIGHT))
     {
         m_right += 0.01f;
     }
@@ -64,7 +67,7 @@ void Game::Update()
 
 void Game::Draw()
 {
-    int numberOfVerts = 3;
+    int numberOfVerts = 6;
     glClearColor(1.0f, 0.5f, 0.75f, 1.0f); //set clear color to pink
     glClear(GL_COLOR_BUFFER_BIT); //clears screen
 
@@ -74,16 +77,15 @@ void Game::Draw()
     GLint loc = glGetAttribLocation( m_pShader->GetProgram(), "a_Position" );
     glEnableVertexAttribArray( loc );
     // Describe the attributes in the VBO to OpenGL.
-    glVertexAttribPointer( loc, 2, GL_FLOAT, GL_FALSE, 24, (void*)0 ); //8->24
+    glVertexAttribPointer( loc, 2, GL_FLOAT, GL_FALSE, 12, (void*)0 ); //Stride: 2*4byte floats + 4*1byte usigned chars
 
     GLint cloc = glGetAttribLocation(m_pShader->GetProgram(), "a_Color");
     glEnableVertexAttribArray(cloc);
     // Describe the attributes in the VBO to OpenGL.
-    glVertexAttribPointer(cloc, 4, GL_FLOAT, GL_FALSE, 24, (void*)8);
+    glVertexAttribPointer(cloc, 4, GL_UNSIGNED_BYTE, GL_TRUE, 12, (void*)8); //Offset: Skip the 2*4byte floats
 
-
-    glPointSize(10);
-    glLineWidth(5);
+    //glPointSize(10);
+    //glLineWidth(5);
 
     //Enable Shader
     glUseProgram(m_pShader->GetProgram());
@@ -94,7 +96,7 @@ void Game::Draw()
     GLint uYloc = glGetUniformLocation(m_pShader->GetProgram(), "u_YOffset");
     glUniform1f(uYloc, m_up);
     GLint uColor = glGetUniformLocation(m_pShader->GetProgram(), "u_Timer");
-    glUniform1f(uColor, (sinf(m_timer)+1)/2.0f);
+    glUniform1f(uColor, (cosf(m_timer)+1)/2.0f);
 
     // Draw the primitive.
     glDrawArrays(GL_TRIANGLE_FAN, 0, numberOfVerts );
