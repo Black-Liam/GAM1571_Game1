@@ -15,7 +15,12 @@ struct VertexFormat
 class GameObject
 {
 public:
-    GameObject();
+    GameObject(int VBO);
     ~GameObject();
+    void Init();
+    void Update(float deltaTime);
+    void Draw();
 
+    int numberOfVerts = 0;
+    GLuint m_VBO;
 };

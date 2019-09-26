@@ -27,5 +27,7 @@
 #include "GameCore.h"
 #include "Utility/ShaderProgram.h"
 #include "Utility/Helpers.h"
+#include "Event.h"
+#include "EventManager.h"
 
 #endif //__FrameworkPCH_H__
