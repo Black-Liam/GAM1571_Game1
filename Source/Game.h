@@ -28,8 +28,6 @@ public:
     float m_timer = 0.0f;
     float m_right = 0.0f;
     float m_up = 0.0f;
-    double sec = 0;
-    double prevSec = 0;
     float speed = 1.0f;
     
 };
