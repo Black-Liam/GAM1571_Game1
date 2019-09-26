@@ -37,21 +37,19 @@ void Game::Init()
     };
     m_Player->numberOfVerts = sizeof(plAttribs)/ sizeof(VertexFormat);
     // Copy our attribute data into the VBO.
-    glBufferData(GL_ARRAY_BUFFER, sizeof(VertexFormat) * 6, plAttribs, GL_STATIC_DRAW); //vertex size * number of vertexes
+    glBufferData(GL_ARRAY_BUFFER, sizeof(VertexFormat) * m_Player->numberOfVerts, plAttribs, GL_STATIC_DRAW); //vertex size * number of vertexes
 
     //glGenBuffers(1, &m_Other->m_VBO);
     //glBindBuffer(GL_ARRAY_BUFFER, m_Other->m_VBO);
     //VertexFormat otAttribs[] =
     //{
-    //VertexFormat(0.0f,     0.0f,   0x80,   0x80,   0x80,   0xFF),
-    //VertexFormat(-50.0f,    0.0f,   0x80,   0x80,   0x80,   0xFF),
-    //VertexFormat(0.0f,     50.0f,  0x80,   0x80,   0x80,   0xFF),
-    //VertexFormat(50.0f,    0.0f,   0x80,   0x80,   0x80,   0xFF),
-    //VertexFormat(0.0f,    -50.0f,  0x80,   0x80,   0x80,   0xFF),
-    //VertexFormat(-50.0f,    0.0f,   0x80,   0x80,   0x80,   0xFF),
+    //VertexFormat(-30.0f,    0.0f,   0x80,   0x80,   0x80,   0xFF),
+    //VertexFormat(0.0f,     30.0f,  0x80,   0x80,   0x80,   0xFF),
+    //VertexFormat(30.0f,    0.0f,   0x80,   0x80,   0x80,   0xFF),
+    //VertexFormat(0.0f,    -30.0f,  0x80,   0x80,   0x80,   0xFF),
     //};
     //m_Other->numberOfVerts = sizeof(otAttribs) / sizeof(VertexFormat);
-    //glBufferData(GL_ARRAY_BUFFER, sizeof(VertexFormat) * 6, otAttribs, GL_STATIC_DRAW);
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(VertexFormat) * m_Other->numberOfVerts, otAttribs, GL_STATIC_DRAW);
 
 }
 
@@ -85,28 +83,14 @@ void Game::Update(float deltaTime)
 
 void Game::Draw()
 {
-    //int numberOfVerts = 6;
     glClearColor(1.0f, 0.5f, 0.75f, 1.0f); //set clear color to pink
     glClear(GL_COLOR_BUFFER_BIT); //clears screen
 
     //Set this VBO to be the currently active one.
 
-    //glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, m_Player->m_VBO);
 
-    // Get the attribute variable’s location from the shader.
-    GLint loc = glGetAttribLocation(m_pShader->GetProgram(), "a_Position");
-    glEnableVertexAttribArray(loc);
-    // Describe the attributes in the VBO to OpenGL.
-    glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 12, (void*)0); //Stride: 2*4byte floats + 4*1byte usigned chars
-
-    GLint cloc = glGetAttribLocation(m_pShader->GetProgram(), "a_Color");
-    glEnableVertexAttribArray(cloc);
-    // Describe the attributes in the VBO to OpenGL.
-    glVertexAttribPointer(cloc, 4, GL_UNSIGNED_BYTE, GL_TRUE, 12, (void*)8); //Offset: Skip the 2*4byte floats
-
-    //glPointSize(10);
-    //glLineWidth(5);
+    m_Player->Draw(m_pShader);
 
     //Enable Shader
     glUseProgram(m_pShader->GetProgram());
@@ -120,8 +104,8 @@ void Game::Draw()
     glUniform1f(uColor, (cosf(m_timer) + 1) / 2.0f);
 
     // Draw the primitive.
-    //glDrawArrays(GL_TRIANGLE_FAN, 0, numberOfVerts);
     glDrawArrays(GL_TRIANGLE_FAN, 0, m_Player->numberOfVerts);
+    //glDrawArrays(GL_TRIANGLE_FAN, 0, m_Other->numberOfVerts);
 
     /*  GL_POINTS
         GL_LINES
