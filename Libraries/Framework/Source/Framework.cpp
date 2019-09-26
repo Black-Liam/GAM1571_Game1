@@ -74,6 +74,8 @@ int Framework::Run(GameCore* pGame)
 
     pGame->Init();
 
+    double prevSec = GetSystemTimeSinceGameStart();
+
     while( !done )
     {
         if( PeekMessage( &message, nullptr, 0, 0, PM_REMOVE ) )
@@ -92,7 +94,12 @@ int Framework::Run(GameCore* pGame)
         {
             glClearColor(1.0f, 1.0f, 0.0f, 1.0f); //set clear color to white
             glClear(GL_COLOR_BUFFER_BIT); //clears screen
-            pGame->Update();
+
+            double sec = GetSystemTimeSinceGameStart();
+            float deltaTime = (float)(sec - prevSec);
+            prevSec = sec;
+
+            pGame->Update(deltaTime);
             pGame->Draw();
             SwapBuffers();
         }
