@@ -5,8 +5,8 @@ Game::Game(fw::Framework* pFramework) : GameCore(pFramework)
     m_VBO = 0;
     m_pShader = nullptr;
     m_pFramework = pFramework;
-    m_Player = new GameObject(0);
-    m_Other = new GameObject(1);
+    m_Player = new GameObject((GLuint)1);
+    m_Other = new GameObject((GLuint)2);
 }
 
 Game::~Game()
@@ -29,27 +29,27 @@ void Game::Init()
     VertexFormat plAttribs[] =
     {
     VertexFormat(0.0f,     0.0f,   0x80,   0x80,   0x80,   0xFF),
-    VertexFormat(-50.0f,    0.0f,   0x00,   0xBC,   0x8A,   0xFF),
-    VertexFormat(0.0f,     50.0f,  0xF0,   0xF7,   0x09,   0xFF),
-    VertexFormat(50.0f,    0.0f,   0xEB,   0x34,   0x0A,   0xFF),
-    VertexFormat(0.0f,    -50.0f,  0x7E,   0x07,   0x85,   0xFF),
-    VertexFormat(-50.0f,    0.0f,   0x00,   0xBC,   0x8A,   0xFF),
+    VertexFormat(-25.0f,    5.0f,   0x00,   0xBC,   0x8A,   0xFF),
+    VertexFormat(0.0f,     30.0f,  0xF0,   0xF7,   0x09,   0xFF),
+    VertexFormat(30.0f,    0.0f,   0xEB,   0x34,   0x0A,   0xFF),
+    VertexFormat(0.0f,    -30.0f,  0x7E,   0x07,   0x85,   0xFF),
+    VertexFormat(-25.0f,    -5.0f,   0x00,   0xBC,   0x8A,   0xFF),
     };
     m_Player->numberOfVerts = sizeof(plAttribs)/ sizeof(VertexFormat);
     // Copy our attribute data into the VBO.
     glBufferData(GL_ARRAY_BUFFER, sizeof(VertexFormat) * m_Player->numberOfVerts, plAttribs, GL_STATIC_DRAW); //vertex size * number of vertexes
 
-    //glGenBuffers(1, &m_Other->m_VBO);
-    //glBindBuffer(GL_ARRAY_BUFFER, m_Other->m_VBO);
-    //VertexFormat otAttribs[] =
-    //{
-    //VertexFormat(-30.0f,    0.0f,   0x80,   0x80,   0x80,   0xFF),
-    //VertexFormat(0.0f,     30.0f,  0x80,   0x80,   0x80,   0xFF),
-    //VertexFormat(30.0f,    0.0f,   0x80,   0x80,   0x80,   0xFF),
-    //VertexFormat(0.0f,    -30.0f,  0x80,   0x80,   0x80,   0xFF),
-    //};
-    //m_Other->numberOfVerts = sizeof(otAttribs) / sizeof(VertexFormat);
-    //glBufferData(GL_ARRAY_BUFFER, sizeof(VertexFormat) * m_Other->numberOfVerts, otAttribs, GL_STATIC_DRAW);
+    glGenBuffers(2, &m_Other->m_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, m_Other->m_VBO);
+    VertexFormat otAttribs[] =
+    {
+    VertexFormat(-10.0f,    0.0f,   0x80,   0x80,   0x80,   0xFF),
+    VertexFormat(0.0f,     10.0f,  0x80,   0x80,   0x80,   0xFF),
+    VertexFormat(10.0f,    0.0f,   0x80,   0x80,   0x80,   0xFF),
+    VertexFormat(0.0f,    -10.0f,  0x80,   0x80,   0x80,   0xFF),
+    };
+    m_Other->numberOfVerts = sizeof(otAttribs) / sizeof(VertexFormat);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(VertexFormat) * m_Other->numberOfVerts, otAttribs, GL_STATIC_DRAW);
 
 }
 
@@ -87,13 +87,11 @@ void Game::Draw()
     glClear(GL_COLOR_BUFFER_BIT); //clears screen
 
     //Set this VBO to be the currently active one.
+    glUseProgram(m_pShader->GetProgram());
 
     glBindBuffer(GL_ARRAY_BUFFER, m_Player->m_VBO);
 
     m_Player->Draw(m_pShader);
-
-    //Enable Shader
-    glUseProgram(m_pShader->GetProgram());
 
     //Setup Uniforms
     GLint uXloc = glGetUniformLocation(m_pShader->GetProgram(), "u_XOffset");
@@ -103,9 +101,47 @@ void Game::Draw()
     GLint uColor = glGetUniformLocation(m_pShader->GetProgram(), "u_Timer");
     glUniform1f(uColor, (cosf(m_timer) + 1) / 2.0f);
 
-    // Draw the primitive.
     glDrawArrays(GL_TRIANGLE_FAN, 0, m_Player->numberOfVerts);
-    //glDrawArrays(GL_TRIANGLE_FAN, 0, m_Other->numberOfVerts);
+
+    //Enable Shader
+    
+
+
+
+
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_Other->m_VBO);
+
+    m_Other->Draw(m_pShader);
+
+    //figure out how to put this in a function
+    uXloc = glGetUniformLocation(m_pShader->GetProgram(), "u_XOffset");
+    glUniform1f(uXloc, -0.5f);
+    uYloc = glGetUniformLocation(m_pShader->GetProgram(), "u_YOffset");
+    glUniform1f(uYloc, -0.6f);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, m_Other->numberOfVerts);
+
+    uXloc = glGetUniformLocation(m_pShader->GetProgram(), "u_XOffset");
+    glUniform1f(uXloc, -0.7f);
+    uYloc = glGetUniformLocation(m_pShader->GetProgram(), "u_YOffset");
+    glUniform1f(uYloc, 0.6f);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, m_Other->numberOfVerts);
+
+    uXloc = glGetUniformLocation(m_pShader->GetProgram(), "u_XOffset");
+    glUniform1f(uXloc, 0.4f);
+    uYloc = glGetUniformLocation(m_pShader->GetProgram(), "u_YOffset");
+    glUniform1f(uYloc, -0.3f);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, m_Other->numberOfVerts);
+
+    uXloc = glGetUniformLocation(m_pShader->GetProgram(), "u_XOffset");
+    glUniform1f(uXloc, 0.6f);
+    uYloc = glGetUniformLocation(m_pShader->GetProgram(), "u_YOffset");
+    glUniform1f(uYloc, 0.8f);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, m_Other->numberOfVerts);
 
     /*  GL_POINTS
         GL_LINES
