@@ -1,12 +1,19 @@
 #include "Game.h"
+#include "GameObject.h"
+#include "PlayerObject.h"
+#include "RockObject.h"
 
 Game::Game(fw::Framework* pFramework) : GameCore(pFramework)
 {
     m_VBO = 0;
     m_pShader = nullptr;
     m_pFramework = pFramework;
-    m_Player = new GameObject((GLuint)1);
-    m_Other = new GameObject((GLuint)2);
+    m_Player = new PlayerObject();
+    m_Rock1 = new RockObject();
+    m_Rock2 = new RockObject();
+    m_Rock3 = new RockObject();
+    m_Rock4 = new RockObject();
+    m_Rock5 = new RockObject();
 }
 
 Game::~Game()
@@ -14,7 +21,11 @@ Game::~Game()
     delete m_pShader;
     delete m_pFramework;
     delete m_Player;
-    delete m_Other;
+    delete m_Rock1;
+    delete m_Rock2;
+    delete m_Rock3;
+    delete m_Rock4;
+    delete m_Rock5;
 }
 
 void Game::Init()
@@ -22,62 +33,17 @@ void Game::Init()
     m_pShader = new fw::ShaderProgram("Data/Shaders/basic.vert", "Data/Shaders/basic.frag");
     wglSwapInterval(1);
 
-    // Generate a buffer for our vertex attributes.
-    glGenBuffers(1, &m_Player->m_VBO);
-    // Set this VBO to be the currently active one.
-    glBindBuffer(GL_ARRAY_BUFFER, m_Player->m_VBO);
-    VertexFormat plAttribs[] =
-    {
-    VertexFormat(0.0f,     0.0f,   0x80,   0x80,   0x80,   0xFF),
-    VertexFormat(-25.0f,    5.0f,   0x00,   0xBC,   0x8A,   0xFF),
-    VertexFormat(0.0f,     30.0f,  0xF0,   0xF7,   0x09,   0xFF),
-    VertexFormat(30.0f,    0.0f,   0xEB,   0x34,   0x0A,   0xFF),
-    VertexFormat(0.0f,    -30.0f,  0x7E,   0x07,   0x85,   0xFF),
-    VertexFormat(-25.0f,    -5.0f,   0x00,   0xBC,   0x8A,   0xFF),
-    };
-    m_Player->numberOfVerts = sizeof(plAttribs)/ sizeof(VertexFormat);
-    // Copy our attribute data into the VBO.
-    glBufferData(GL_ARRAY_BUFFER, sizeof(VertexFormat) * m_Player->numberOfVerts, plAttribs, GL_STATIC_DRAW); //vertex size * number of vertexes
-
-    glGenBuffers(2, &m_Other->m_VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, m_Other->m_VBO);
-    VertexFormat otAttribs[] =
-    {
-    VertexFormat(-10.0f,    0.0f,   0x80,   0x80,   0x80,   0xFF),
-    VertexFormat(0.0f,     10.0f,  0x80,   0x80,   0x80,   0xFF),
-    VertexFormat(10.0f,    0.0f,   0x80,   0x80,   0x80,   0xFF),
-    VertexFormat(0.0f,    -10.0f,  0x80,   0x80,   0x80,   0xFF),
-    };
-    m_Other->numberOfVerts = sizeof(otAttribs) / sizeof(VertexFormat);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(VertexFormat) * m_Other->numberOfVerts, otAttribs, GL_STATIC_DRAW);
-
+    m_Player->Init();
+    m_Rock1->Init();
+    m_Rock2->Init();
+    m_Rock3->Init();
+    m_Rock4->Init();
+    m_Rock5->Init();
 }
 
 void Game::Update(float deltaTime)
 {
-    //m_timer += 0.1f;
-    if (m_pFramework->IsKeyDown(VK_UP))
-    {
-        m_up += speed * deltaTime;
-    }
-    else if (m_pFramework->IsKeyDown(VK_DOWN))
-    {
-        m_up -= speed * deltaTime;
-    }
-    else if (m_pFramework->IsKeyDown(VK_RIGHT))
-    {
-        m_right += speed * deltaTime;
-    }
-    else if (m_pFramework->IsKeyDown(VK_LEFT))
-    {
-        m_right -= speed * deltaTime;
-    }
-
-    if (m_pFramework->IsKeyDown(VK_SPACE))
-    {
-        m_up = 0.0f;
-        m_right = 0.0f;
-    }
+    m_Player->Update(deltaTime, m_pFramework);
 
 }
 
@@ -86,62 +52,13 @@ void Game::Draw()
     glClearColor(1.0f, 0.5f, 0.75f, 1.0f); //set clear color to pink
     glClear(GL_COLOR_BUFFER_BIT); //clears screen
 
-    //Set this VBO to be the currently active one.
-    glUseProgram(m_pShader->GetProgram());
+    m_Player->Draw(m_pShader, 0, 0);
 
-    glBindBuffer(GL_ARRAY_BUFFER, m_Player->m_VBO);
-
-    m_Player->Draw(m_pShader);
-
-    //Setup Uniforms
-    GLint uXloc = glGetUniformLocation(m_pShader->GetProgram(), "u_XOffset");
-    glUniform1f(uXloc, m_right);
-    GLint uYloc = glGetUniformLocation(m_pShader->GetProgram(), "u_YOffset");
-    glUniform1f(uYloc, m_up);
-    GLint uColor = glGetUniformLocation(m_pShader->GetProgram(), "u_Timer");
-    glUniform1f(uColor, (cosf(m_timer) + 1) / 2.0f);
-
-    glDrawArrays(GL_TRIANGLE_FAN, 0, m_Player->numberOfVerts);
-
-    //Enable Shader
-    
-
-
-
-
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_Other->m_VBO);
-
-    m_Other->Draw(m_pShader);
-
-    //figure out how to put this in a function
-    uXloc = glGetUniformLocation(m_pShader->GetProgram(), "u_XOffset");
-    glUniform1f(uXloc, -0.5f);
-    uYloc = glGetUniformLocation(m_pShader->GetProgram(), "u_YOffset");
-    glUniform1f(uYloc, -0.6f);
-
-    glDrawArrays(GL_TRIANGLE_FAN, 0, m_Other->numberOfVerts);
-
-    uXloc = glGetUniformLocation(m_pShader->GetProgram(), "u_XOffset");
-    glUniform1f(uXloc, -0.7f);
-    uYloc = glGetUniformLocation(m_pShader->GetProgram(), "u_YOffset");
-    glUniform1f(uYloc, 0.6f);
-
-    glDrawArrays(GL_TRIANGLE_FAN, 0, m_Other->numberOfVerts);
-
-    uXloc = glGetUniformLocation(m_pShader->GetProgram(), "u_XOffset");
-    glUniform1f(uXloc, 0.4f);
-    uYloc = glGetUniformLocation(m_pShader->GetProgram(), "u_YOffset");
-    glUniform1f(uYloc, -0.3f);
-
-    glDrawArrays(GL_TRIANGLE_FAN, 0, m_Other->numberOfVerts);
-
-    uXloc = glGetUniformLocation(m_pShader->GetProgram(), "u_XOffset");
-    glUniform1f(uXloc, 0.6f);
-    uYloc = glGetUniformLocation(m_pShader->GetProgram(), "u_YOffset");
-    glUniform1f(uYloc, 0.8f);
-
-    glDrawArrays(GL_TRIANGLE_FAN, 0, m_Other->numberOfVerts);
+    m_Rock1->Draw(m_pShader, -0.5f, -0.6f);
+    m_Rock2->Draw(m_pShader, -0.7f, 0.6f);
+    m_Rock3->Draw(m_pShader, 0.4f, -0.3f);
+    m_Rock4->Draw(m_pShader, 0.6f,0.8f );
+    m_Rock5->Draw(m_pShader, 0.85f, -0.7f);
 
     /*  GL_POINTS
         GL_LINES
