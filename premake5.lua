@@ -10,9 +10,11 @@ workspace "Game"
 
 -- Game Project
 project "Game"
-	location "build/Game"
+	location "build"
 	kind "WindowedApp"
 	language "C++"
+	pchheader "GamePCH.h"
+	pchsource "Source/WinMain.cpp"
 	debugdir "Source"
 	files {
 	"Source/**.cpp",
@@ -31,9 +33,11 @@ project "Game"
 
 -- Framework Project
 project "Framework"
-	location "build/Libraries/Framework"
+	location "build"
 	kind "StaticLib"
 	language "C++"
+	pchheader "FrameworkPCH.h"
+	pchsource "Libraries/Framework/Source/Framework.cpp"
 	files {
 	"Libraries/Framework/Source/**.cpp",
 	"Libraries/Framework/Source/**.h",

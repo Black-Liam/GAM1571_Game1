@@ -1,3 +1,4 @@
+#include "GamePCH.h"
 #include "PlayerObject.h"
 #include "GameObject.h"
 
@@ -83,9 +84,9 @@ void PlayerObject::Draw(fw::ShaderProgram* p_Shader, float right, float up)
     SetAttributes(p_Shader);
 
     GLint uXloc = glGetUniformLocation(p_Shader->GetProgram(), "u_XOffset");
-    glUniform1f(uXloc, right);
+    glUniform1f(uXloc, m_right);
     GLint uYloc = glGetUniformLocation(p_Shader->GetProgram(), "u_YOffset");
-    glUniform1f(uYloc, up);
+    glUniform1f(uYloc, m_up);
 
     glDrawArrays(GL_TRIANGLES, 0, numberOfVerts);
 }

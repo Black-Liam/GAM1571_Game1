@@ -1,5 +1,5 @@
+#include "GamePCH.h"
 #include <Windows.h>
-#include "../Libraries/Framework/Source/FrameworkPCH.h"
 #include "Game.h"
 using namespace fw;
 
