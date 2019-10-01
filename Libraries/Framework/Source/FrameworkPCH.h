@@ -23,11 +23,14 @@
 #include "GL/GLExtensions.h"
 #include "GL/WGLExtensions.h"
 
+#include "Math/Vector.h"
+
 #include "Framework.h"
 #include "GameCore.h"
 #include "Utility/ShaderProgram.h"
 #include "Utility/Helpers.h"
 #include "Event.h"
 #include "EventManager.h"
+
 
 #endif //__FrameworkPCH_H__

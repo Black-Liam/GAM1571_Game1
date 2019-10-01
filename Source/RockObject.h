@@ -1,5 +1,4 @@
 #pragma once
-#include "../Libraries/Framework/Source/FrameworkPCH.h"
 #include "GameObject.h"
 
 class RockObject : public GameObject

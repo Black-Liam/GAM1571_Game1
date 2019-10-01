@@ -1,5 +1,4 @@
 #pragma once
-#include "../Libraries/Framework/Source/FrameworkPCH.h"
 #include "GameObject.h"
 
 
@@ -9,7 +8,7 @@ public:
     PlayerObject();
     ~PlayerObject();
     void Init();
-    void Update(float deltaTime, fw::Framework* p_Frame);
+    virtual void Update(float deltaTime, fw::Framework* p_Frame) override;
     void Draw(fw::ShaderProgram* p_Shader, float right, float up);
     void SetAttributes(fw::ShaderProgram* p_Shader);
     int numberOfVerts = 0;

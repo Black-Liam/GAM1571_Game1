@@ -14,9 +14,6 @@ void GameObject::Init()
 {
 }
 
-void GameObject::Update(float deltaTime)
-{
-}
 
 void GameObject::Draw(fw::ShaderProgram* p_Shader, float right, float up)
 {

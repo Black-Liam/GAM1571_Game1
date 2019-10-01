@@ -1,5 +1,4 @@
 #pragma once
-#include "../Libraries/Framework/Source/FrameworkPCH.h"
 
 typedef unsigned char uint8;
 
@@ -12,17 +11,28 @@ struct VertexFormat
         :x(X), y(Y), r(R), g(G), b(B), a(A) {}
 };
 
+
+
 class GameObject
 {
 public:
     GameObject();
     ~GameObject();
     void Init();
-    void Update(float deltaTime);
+    virtual void Update(float deltaTime, fw::Framework* p_Frame) = 0;
     void Draw(fw::ShaderProgram* p_Shader, float right, float up);
     void SetAttributes(fw::ShaderProgram* p_Shader);
     int numberOfVerts = 0;
     float m_right = 0.0f;
     float m_up = 0.0f;
     GLuint m_VBO;
+
+    /*
+    enum class Type
+    Shader*
+    Mesh*
+    OnEvent()
+
+
+    */
 };

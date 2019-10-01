@@ -1,5 +1,4 @@
 #pragma once
-#include "../Libraries/Framework/Source/FrameworkPCH.h"
 #include "GameObject.h"
 #include "PlayerObject.h"
 #include "RockObject.h"
@@ -11,6 +10,7 @@ protected:
     GLuint m_VBO;
     fw::ShaderProgram* m_pShader;
     fw::Framework* m_pFramework;
+    std::vector<GameObject*> m_GameObjects;
     PlayerObject* m_Player;
     RockObject* m_Rock1; 
     RockObject* m_Rock2;
@@ -28,5 +28,9 @@ public:
     float speed = 1.0f;
 
     
+    /*
+    std::vector<Mesh*> m_Meshes;
+    isColliding
     
+    */
 };
