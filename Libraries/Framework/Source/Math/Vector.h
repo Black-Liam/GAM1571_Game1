@@ -19,8 +19,8 @@ public:
     //vec2 operator*=(const float& o) { return vec2(x * o, y * o); }
     //vec2 operator/=(const float& o) { return vec2(x / o, y / o); }
 
-    float Length() const { return (float)sqrt(x * x + y * y); }
-    float DistanceTo(const vec2& o) const {return ((*this - o ).Length);}
+    //float Length() const { return (float)sqrt(x * x + y * y); }
+    //float DistanceTo(const vec2& o) const {return ((*this - o ).Length);}
 
     void Normalize() {}
     vec2 GetNormalized() const {}

@@ -7,7 +7,7 @@ public:
     RockObject();
     ~RockObject();
     void Init();
-    void Update(float deltaTime);
+    virtual void Update(float deltaTime, fw::Framework* p_Frame) override;
     void Draw(fw::ShaderProgram* p_Shader, float right, float up);
     void SetAttributes(fw::ShaderProgram* p_Shader);
     int numberOfVerts = 0;

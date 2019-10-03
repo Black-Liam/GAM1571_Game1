@@ -52,7 +52,27 @@ void PlayerObject::Init()
 
 void PlayerObject::Update(float deltaTime, fw::Framework* p_Frame)
 {
-    if (p_Frame->IsKeyDown(VK_UP))
+    if (p_Frame->IsKeyDown(VK_UP)&& p_Frame->IsKeyDown(VK_LEFT))
+    {
+        m_up += deltaTime * speed * sqrtf(0.5f);
+        m_right -= deltaTime * speed * sqrtf(0.5f);
+    }
+    else if (p_Frame->IsKeyDown(VK_UP) && p_Frame->IsKeyDown(VK_RIGHT))
+    {
+        m_up += deltaTime * speed * sqrtf(0.5f);
+        m_right += deltaTime * speed * sqrtf(0.5f);
+    }
+    else if (p_Frame->IsKeyDown(VK_DOWN)&& p_Frame->IsKeyDown(VK_RIGHT))
+    {
+        m_right += deltaTime * speed * sqrtf(0.5f);
+        m_up -= deltaTime * speed * sqrtf(0.5f);
+    }
+    else if (p_Frame->IsKeyDown(VK_DOWN) && p_Frame->IsKeyDown(VK_LEFT))
+    {
+        m_right -= deltaTime * speed * sqrtf(0.5f);
+        m_up -= deltaTime * speed * sqrtf(0.5f);
+    }
+    else if (p_Frame->IsKeyDown(VK_UP))
     {
         m_up += deltaTime * speed;
     }

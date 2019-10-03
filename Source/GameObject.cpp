@@ -3,7 +3,6 @@
 
 GameObject::GameObject()
 {
-    m_VBO = 0;
 }
 
 GameObject::~GameObject()

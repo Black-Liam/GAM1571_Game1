@@ -30,6 +30,10 @@ void RockObject::Init()
     glBufferData(GL_ARRAY_BUFFER, sizeof(VertexFormat) * numberOfVerts, Attribs, GL_STATIC_DRAW);
 }
 
+void RockObject::Update(float deltaTime, fw::Framework* p_Frame)
+{
+}
+
 void RockObject::Draw(fw::ShaderProgram* p_Shader, float right, float up)
 {
     glUseProgram(p_Shader->GetProgram());
