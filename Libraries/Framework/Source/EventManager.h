@@ -12,7 +12,7 @@ namespace fw {
         EventManager();
         ~EventManager();
         std::queue<Event*> m_Queue;
-        GameCore* p_myGame;
+        GameCore* m_pmyGame;
         void PushToQueue(Event* pEvent);
         void ProcessQueue();
     };

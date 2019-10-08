@@ -11,10 +11,10 @@ namespace fw {
 
     class Event
     {
-    public:
+    private:
         EventType m_Type;
-
-        
+    public:
+        EventType GetEventType();
 
     };
 } //namespace fw

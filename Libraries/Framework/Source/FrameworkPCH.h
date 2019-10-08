@@ -30,6 +30,7 @@
 #include "Utility/ShaderProgram.h"
 #include "Utility/Helpers.h"
 #include "Event.h"
+#include "InputEvent.h"
 #include "EventManager.h"
 
 

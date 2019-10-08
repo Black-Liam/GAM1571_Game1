@@ -4,6 +4,7 @@
 
 PlayerObject::PlayerObject()
 {
+    m_VBO = 0;
 }
 
 PlayerObject::~PlayerObject()
