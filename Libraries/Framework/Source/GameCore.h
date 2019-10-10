@@ -2,10 +2,14 @@
 
 #include "FrameworkPCH.h"
 
+class EventManager;
+
 namespace fw {
 
     class GameCore
     {
+    private:
+        EventManager* m_pEventManager;
     protected:
         Framework* m_pFramework;
     public:

@@ -1,10 +1,10 @@
 #include "GamePCH.h"
 #include "PlayerObject.h"
 #include "GameObject.h"
+#include "Mesh.h"
 
 PlayerObject::PlayerObject()
 {
-    m_VBO = 0;
 }
 
 PlayerObject::~PlayerObject()
@@ -13,8 +13,7 @@ PlayerObject::~PlayerObject()
 
 void PlayerObject::Init()
 {
-    glGenBuffers(1, &m_VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+    GLenum pt = GL_TRIANGLES;
     VertexFormat Attribs[] =
     {
     VertexFormat(-5.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
@@ -44,10 +43,9 @@ void PlayerObject::Init()
     VertexFormat(-5.0f,     -15.0f,   0x00,   0x00,   0x80,   0xFF),
     VertexFormat(-5.0f,     5.0f,   0x00,   0x00,   0x80,   0xFF),
     VertexFormat(5.0f,     5.0f,   0x00,   0x00,   0x80,   0xFF),
-
     };
-    numberOfVerts = sizeof(Attribs) / sizeof(VertexFormat);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(VertexFormat) * numberOfVerts, Attribs, GL_STATIC_DRAW);
+    uint32 nv = 24;
+    m_pMesh->Init(Attribs, nv, pt);
     
 }
 
@@ -55,64 +53,49 @@ void PlayerObject::Update(float deltaTime, fw::Framework* p_Frame)
 {
     if (p_Frame->IsKeyDown(VK_UP)&& p_Frame->IsKeyDown(VK_LEFT))
     {
-        m_up += deltaTime * speed * sqrtf(0.5f);
-        m_right -= deltaTime * speed * sqrtf(0.5f);
+        m_Position.y += deltaTime * speed * sqrtf(0.5f);
+        m_Position.x -= deltaTime * speed * sqrtf(0.5f);
     }
     else if (p_Frame->IsKeyDown(VK_UP) && p_Frame->IsKeyDown(VK_RIGHT))
     {
-        m_up += deltaTime * speed * sqrtf(0.5f);
-        m_right += deltaTime * speed * sqrtf(0.5f);
+        m_Position.y += deltaTime * speed * sqrtf(0.5f);
+        m_Position.x += deltaTime * speed * sqrtf(0.5f);
     }
     else if (p_Frame->IsKeyDown(VK_DOWN)&& p_Frame->IsKeyDown(VK_RIGHT))
     {
-        m_right += deltaTime * speed * sqrtf(0.5f);
-        m_up -= deltaTime * speed * sqrtf(0.5f);
+        m_Position.x += deltaTime * speed * sqrtf(0.5f);
+        m_Position.y -= deltaTime * speed * sqrtf(0.5f);
     }
     else if (p_Frame->IsKeyDown(VK_DOWN) && p_Frame->IsKeyDown(VK_LEFT))
     {
-        m_right -= deltaTime * speed * sqrtf(0.5f);
-        m_up -= deltaTime * speed * sqrtf(0.5f);
+        m_Position.x -= deltaTime * speed * sqrtf(0.5f);
+        m_Position.y -= deltaTime * speed * sqrtf(0.5f);
     }
     else if (p_Frame->IsKeyDown(VK_UP))
     {
-        m_up += deltaTime * speed;
+        m_Position.y += deltaTime * speed;
     }
     else if(p_Frame->IsKeyDown(VK_DOWN))
     {
-        m_up -= deltaTime * speed;
+        m_Position.y -= deltaTime * speed;
     }
     else if(p_Frame->IsKeyDown(VK_LEFT))
     {
-        m_right -= deltaTime * speed;
+        m_Position.x -= deltaTime * speed;
     }
     else if(p_Frame->IsKeyDown(VK_RIGHT))
     {
-        m_right += deltaTime * speed;
+        m_Position.x += deltaTime * speed;
     }
     if (p_Frame->IsKeyDown(VK_SPACE))
     {
-        m_up = 0.0f;
-        m_right = 0.0f;
+        m_Position.y = 0.0f;
+        m_Position.x = 0.0f;
     }
 
 }
 
-void PlayerObject::Draw(fw::ShaderProgram* p_Shader, float right, float up)
+void PlayerObject::Draw()
 {
-    glUseProgram(p_Shader->GetProgram());
-
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-    SetAttributes(p_Shader);
-
-    GLint uXloc = glGetUniformLocation(p_Shader->GetProgram(), "u_XOffset");
-    glUniform1f(uXloc, m_right);
-    GLint uYloc = glGetUniformLocation(p_Shader->GetProgram(), "u_YOffset");
-    glUniform1f(uYloc, m_up);
-
-    glDrawArrays(GL_TRIANGLES, 0, numberOfVerts);
-}
-
-void PlayerObject::SetAttributes(fw::ShaderProgram* p_Shader)
-{
-    GameObject::SetAttributes(p_Shader);
+   
 }

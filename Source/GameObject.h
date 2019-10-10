@@ -1,31 +1,32 @@
 #pragma once
 
-typedef unsigned char uint8;
-
-struct VertexFormat
+enum class GameObjectType
 {
-    float x, y;
-    uint8 r, g, b, a;
-
-    VertexFormat(float X, float Y, uint8 R, uint8 G, uint8 B, uint8 A)
-        :x(X), y(Y), r(R), g(G), b(B), a(A) {}
+    Player,
+    Rock,
+    Camera,
+    NotSet,
 };
 
+class Game;
+class Mesh;
 
 
 class GameObject
 {
+private:
+    Game* m_pGame;
+    Mesh* m_pMesh;
+    fw::ShaderProgram* m_pShader;
+    vec2 m_Position;
+    GameObjectType m_type;
+
 public:
     GameObject();
     ~GameObject();
-    void Init();
+    void Init(Game*, Mesh*, fw::ShaderProgram*, vec2);
     virtual void Update(float deltaTime, fw::Framework* p_Frame) = 0;
-    void Draw(fw::ShaderProgram* p_Shader, float right, float up);
-    void SetAttributes(fw::ShaderProgram* p_Shader);
-    int numberOfVerts = 0;
-    float m_right = 0.0f;
-    float m_up = 0.0f;
-    GLuint m_VBO;
+    void Draw();
 
     /*
     enum class Type

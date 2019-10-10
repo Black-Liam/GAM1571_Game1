@@ -2,15 +2,22 @@
 #include "GameObject.h"
 #include "PlayerObject.h"
 #include "RockObject.h"
+#include "Mesh.h"
+
+//class ShaderProgram;
+//class Event;
 
 class Game :
     public fw::GameCore
 {
 protected:
-    GLuint m_VBO;
     fw::ShaderProgram* m_pShader;
     fw::Framework* m_pFramework;
-    std::vector<GameObject*> m_GameObjects;
+
+    std::vector<fw::ShaderProgram*> m_pShaders;
+    std::vector<Mesh*> m_pMeshes;
+    std::vector<GameObject*> m_pGameObjects;
+    
     PlayerObject* m_Player;
     RockObject* m_Rock1; 
     RockObject* m_Rock2;
@@ -21,11 +28,10 @@ public:
     Game(fw::Framework* pFramework);
     ~Game();
     void Init() override;
+    void OnEvent(fw::Event* pEvent);
     void Update(float deltaTime) override;
     void Draw() override;
-    float m_right = 0.0f;
-    float m_up = 0.0f;
-    float speed = 1.0f;
+    GameObject* CheckCollision(GameObject*);
 
     
     /*

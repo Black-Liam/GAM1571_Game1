@@ -10,6 +10,7 @@ namespace fw {
 
     public:
         EventManager();
+        EventManager(GameCore* gc);
         ~EventManager();
         std::queue<Event*> m_Queue;
         GameCore* m_pmyGame;

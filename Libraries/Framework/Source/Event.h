@@ -14,6 +14,7 @@ namespace fw {
     private:
         EventType m_Type;
     public:
+        Event(EventType et);
         EventType GetEventType();
 
     };

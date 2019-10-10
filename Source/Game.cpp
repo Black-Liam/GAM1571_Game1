@@ -6,9 +6,16 @@
 
 Game::Game(fw::Framework* pFramework) : GameCore(pFramework)
 {
-    m_VBO = 0;
     m_pShader = nullptr;
     m_pFramework = pFramework;
+
+    //m_pShaders[0];
+    //m_pMeshes[0];
+    //m_pGameObjects[0];
+
+    //1 can I make one in the vector, or do I make it and pass it in?
+    //2 where should the new calls be?
+
     m_Player = new PlayerObject();
     m_Rock1 = new RockObject();
     m_Rock2 = new RockObject();
@@ -34,6 +41,12 @@ void Game::Init()
     m_pShader = new fw::ShaderProgram("Data/Shaders/basic.vert", "Data/Shaders/basic.frag");
     wglSwapInterval(1);
 
+    //create new meshes & shgaders
+    //initialize meshes &sahders
+    //create new objects & init them
+    //
+    
+
     m_Player->Init();
     m_Rock1->Init();
     m_Rock2->Init();
@@ -44,6 +57,8 @@ void Game::Init()
 
 void Game::Update(float deltaTime)
 {
+    //loop update objects
+
     m_Player->Update(deltaTime, m_pFramework);
 
 }
@@ -55,23 +70,24 @@ void Game::Draw()
 
     glViewport(0, 0, 600, 600);
 
-    m_Player->Draw(m_pShader, 0, 0);
+    //loop draw objects
+    m_Player->Draw();
 
-    m_Rock1->Draw(m_pShader, -0.5f, -0.6f);
-    m_Rock2->Draw(m_pShader, -0.7f, 0.6f);
-    m_Rock3->Draw(m_pShader, 0.4f, -0.3f);
-    m_Rock4->Draw(m_pShader, 0.6f,0.8f );
-    m_Rock5->Draw(m_pShader, 0.85f, -0.7f);
+    m_Rock1->Draw();
+    m_Rock2->Draw();
+    m_Rock3->Draw();
+    m_Rock4->Draw();
+    m_Rock5->Draw();
 
     glViewport(475, 25, 100, 100);
 
-    m_Player->Draw(m_pShader, 0, 0);
+    m_Player->Draw();
 
-    m_Rock1->Draw(m_pShader, -0.5f, -0.6f);
-    m_Rock2->Draw(m_pShader, -0.7f, 0.6f);
-    m_Rock3->Draw(m_pShader, 0.4f, -0.3f);
-    m_Rock4->Draw(m_pShader, 0.6f, 0.8f);
-    m_Rock5->Draw(m_pShader, 0.85f, -0.7f);
+    m_Rock1->Draw();
+    m_Rock2->Draw();
+    m_Rock3->Draw();
+    m_Rock4->Draw();
+    m_Rock5->Draw();
 
     /*  GL_POINTS
         GL_LINES
