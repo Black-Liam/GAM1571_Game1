@@ -14,8 +14,8 @@ class Mesh;
 
 class GameObject
 {
-private:
-    Game* m_pGame;
+protected:
+    const Game* m_pGame;
     Mesh* m_pMesh;
     fw::ShaderProgram* m_pShader;
     vec2 m_Position;
@@ -24,7 +24,7 @@ private:
 public:
     GameObject();
     ~GameObject();
-    void Init(Game*, Mesh*, fw::ShaderProgram*, vec2);
+    void Init(const Game*, Mesh*, fw::ShaderProgram*, vec2);
     virtual void Update(float deltaTime, fw::Framework* p_Frame) = 0;
     void Draw();
 

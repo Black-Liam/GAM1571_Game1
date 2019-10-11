@@ -11,42 +11,12 @@ PlayerObject::~PlayerObject()
 {
 }
 
-void PlayerObject::Init()
+void PlayerObject::Init(const Game* g, Mesh* m, fw::ShaderProgram* sp, vec2 pos)
 {
-    GLenum pt = GL_TRIANGLES;
-    VertexFormat Attribs[] =
-    {
-    VertexFormat(-5.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
-    VertexFormat(-5.0f,     15.0f,   0xff,   0xff,   0x00,   0xFF),
-    VertexFormat(5.0f,     15.0f,   0xff,   0xff,   0x00,   0xFF),
-    VertexFormat(-5.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
-    VertexFormat(5.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
-    VertexFormat(5.0f,     15.0f,   0xff,   0xff,   0x00,   0xFF),
-
-    VertexFormat(5.0f,     -5.0f,   0xff,   0xff,   0x00,   0xFF),
-    VertexFormat(5.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
-    VertexFormat(10.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
-    VertexFormat(5.0f,     -5.0f,   0xff,   0xff,   0x00,   0xFF),
-    VertexFormat(10.0f,     -5.0f,   0xff,   0xff,   0x00,   0xFF),
-    VertexFormat(10.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
-
-    VertexFormat(-10.0f,     -5.0f,   0xff,   0xff,   0x00,   0xFF),
-    VertexFormat(-10.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
-    VertexFormat(-5.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
-    VertexFormat(-10.0f,     -5.0f,   0xff,   0xff,   0x00,   0xFF),
-    VertexFormat(-5.0f,     -5.0f,   0xff,   0xff,   0x00,   0xFF),
-    VertexFormat(-5.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
-
-    VertexFormat(-5.0f,     -15.0f,   0x00,   0x00,   0x80,   0xFF),
-    VertexFormat(5.0f,     -15.0f,   0x00,   0x00,   0x80,   0xFF),
-    VertexFormat(5.0f,     5.0f,   0x00,   0x00,   0x80,   0xFF),
-    VertexFormat(-5.0f,     -15.0f,   0x00,   0x00,   0x80,   0xFF),
-    VertexFormat(-5.0f,     5.0f,   0x00,   0x00,   0x80,   0xFF),
-    VertexFormat(5.0f,     5.0f,   0x00,   0x00,   0x80,   0xFF),
-    };
-    uint32 nv = 24;
-    m_pMesh->Init(Attribs, nv, pt);
-    
+    m_pGame = g;
+    m_pShader = sp;
+    m_pMesh = m;
+    m_Position = pos;
 }
 
 void PlayerObject::Update(float deltaTime, fw::Framework* p_Frame)

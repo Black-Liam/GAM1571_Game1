@@ -6,7 +6,6 @@
 
 Game::Game(fw::Framework* pFramework) : GameCore(pFramework)
 {
-    m_pShader = nullptr;
     m_pFramework = pFramework;
 
     //m_pShaders[0];
@@ -16,36 +15,98 @@ Game::Game(fw::Framework* pFramework) : GameCore(pFramework)
     //1 can I make one in the vector, or do I make it and pass it in?
     //2 where should the new calls be?
 
-    m_Player = new PlayerObject();
-    m_Rock1 = new RockObject();
-    m_Rock2 = new RockObject();
-    m_Rock3 = new RockObject();
-    m_Rock4 = new RockObject();
-    m_Rock5 = new RockObject();
+    
 }
 
 Game::~Game()
 {
-    delete m_pShader;
+    for (int i = 0; i > 1; i++)
+    {
+        delete m_pShaders[i];
+    }
+    for (int i = 0; i > 2; i++)
+    {
+        delete m_pMeshes[i];
+    }
+    for (int i = 0; i > 6; i++)
+    {
+        delete m_pGameObjects[i];
+    }
     delete m_pFramework;
-    delete m_Player;
-    delete m_Rock1;
-    delete m_Rock2;
-    delete m_Rock3;
-    delete m_Rock4;
-    delete m_Rock5;
 }
 
 void Game::Init()
 {
-    m_pShader = new fw::ShaderProgram("Data/Shaders/basic.vert", "Data/Shaders/basic.frag");
+    fw::ShaderProgram* m_pShader = new fw::ShaderProgram("Data/Shaders/basic.vert", "Data/Shaders/basic.frag");
     wglSwapInterval(1);
+
+    m_pShaders[0] = m_pShader;
 
     //create new meshes & shgaders
     //initialize meshes &sahders
     //create new objects & init them
-    //
     
+    Mesh* PlayerMesh = new Mesh();
+    Mesh* RockMesh = new Mesh();
+
+    GLenum rpt = GL_TRIANGLE_FAN;
+    uint32 rnv = 8;
+    VertexFormat ra[] =
+    {
+    VertexFormat(0.0f,     0.0f,   0x30,   0x30,   0x30,   0xFF),
+    VertexFormat(-10.0f,    10.0f,   0x60,   0x60,   0x60,   0xFF),
+    VertexFormat(5.0f,     10.0f,  0x60,   0x60,   0x60,   0xFF),
+    VertexFormat(15.0f,    0.0f,   0x60,   0x60,   0x60,   0xFF),
+    VertexFormat(10.0f,    -10.0f,   0x60,   0x60,   0x60,   0xFF),
+    VertexFormat(-5.0f,    -10.0f,   0x60,   0x60,   0x60,   0xFF),
+    VertexFormat(-15.0f,    0.0f,  0x60,   0x60,   0x60,   0xFF),
+    VertexFormat(-10.0f,    10.0f,   0x60,   0x60,   0x60,   0xFF),
+    };
+    RockMesh->Init(ra, rnv, rpt);
+    GLenum ppt = GL_TRIANGLES;
+    VertexFormat pa[] =
+    {
+    VertexFormat(-5.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
+    VertexFormat(-5.0f,     15.0f,   0xff,   0xff,   0x00,   0xFF),
+    VertexFormat(5.0f,     15.0f,   0xff,   0xff,   0x00,   0xFF),
+    VertexFormat(-5.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
+    VertexFormat(5.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
+    VertexFormat(5.0f,     15.0f,   0xff,   0xff,   0x00,   0xFF),
+
+    VertexFormat(5.0f,     -5.0f,   0xff,   0xff,   0x00,   0xFF),
+    VertexFormat(5.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
+    VertexFormat(10.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
+    VertexFormat(5.0f,     -5.0f,   0xff,   0xff,   0x00,   0xFF),
+    VertexFormat(10.0f,     -5.0f,   0xff,   0xff,   0x00,   0xFF),
+    VertexFormat(10.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
+
+    VertexFormat(-10.0f,     -5.0f,   0xff,   0xff,   0x00,   0xFF),
+    VertexFormat(-10.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
+    VertexFormat(-5.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
+    VertexFormat(-10.0f,     -5.0f,   0xff,   0xff,   0x00,   0xFF),
+    VertexFormat(-5.0f,     -5.0f,   0xff,   0xff,   0x00,   0xFF),
+    VertexFormat(-5.0f,     5.0f,   0xff,   0xff,   0x00,   0xFF),
+
+    VertexFormat(-5.0f,     -15.0f,   0x00,   0x00,   0x80,   0xFF),
+    VertexFormat(5.0f,     -15.0f,   0x00,   0x00,   0x80,   0xFF),
+    VertexFormat(5.0f,     5.0f,   0x00,   0x00,   0x80,   0xFF),
+    VertexFormat(-5.0f,     -15.0f,   0x00,   0x00,   0x80,   0xFF),
+    VertexFormat(-5.0f,     5.0f,   0x00,   0x00,   0x80,   0xFF),
+    VertexFormat(5.0f,     5.0f,   0x00,   0x00,   0x80,   0xFF),
+    };
+    uint32 pnv = 24;
+    PlayerMesh->Init(pa, pnv, ppt);
+
+    m_pMeshes[0] = PlayerMesh;
+    m_pMeshes[1] = RockMesh;
+
+    GameObject* m_Player = new PlayerObject(this,m_pMeshes[0], m_pShaders[0],vec2(0.0f, 0.0f));
+    GameObject* m_Rock1 = new RockObject(this, m_pMeshes[0], m_pShaders[0], vec2(3.0f, 4.0f));
+    GameObject* m_Rock2 = new RockObject(this, m_pMeshes[0], m_pShaders[0], vec2(5.0f, 1.0f));
+    GameObject* m_Rock3 = new RockObject(this, m_pMeshes[0], m_pShaders[0], vec2(6.0f, 2.0f));
+    GameObject* m_Rock4 = new RockObject(this, m_pMeshes[0], m_pShaders[0], vec2(4.0f, 0.0f));
+    GameObject* m_Rock5 = new RockObject(this, m_pMeshes[0], m_pShaders[0], vec2(1.0f, 5.0f));
+
 
     m_Player->Init();
     m_Rock1->Init();

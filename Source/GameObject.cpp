@@ -10,7 +10,7 @@ GameObject::~GameObject()
 {
 }
 
-void GameObject::Init(Game* g, Mesh* m, fw::ShaderProgram* sp, vec2 pos)
+void GameObject::Init(const Game* g, Mesh* m, fw::ShaderProgram* sp, vec2 pos)
 {
     m_pGame = g;
     m_pShader = sp;

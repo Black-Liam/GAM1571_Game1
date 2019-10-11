@@ -11,34 +11,12 @@ RockObject::~RockObject()
 {
 }
 
-void RockObject::Init()
+void RockObject::Init(const Game* g, Mesh* m, fw::ShaderProgram* sp, vec2 pos)
 {
-    GLenum pt = GL_TRIANGLE_FAN;
-    VertexFormat Attribs[] =
-    {
-    VertexFormat(0.0f,     0.0f,   0x30,   0x30,   0x30,   0xFF),
-    VertexFormat(-10.0f,    10.0f,   0x60,   0x60,   0x60,   0xFF),
-    VertexFormat(5.0f,     10.0f,  0x60,   0x60,   0x60,   0xFF),
-    VertexFormat(15.0f,    0.0f,   0x60,   0x60,   0x60,   0xFF),
-    VertexFormat(10.0f,    -10.0f,   0x60,   0x60,   0x60,   0xFF),
-    VertexFormat(-5.0f,    -10.0f,   0x60,   0x60,   0x60,   0xFF),
-    VertexFormat(-15.0f,    0.0f,  0x60,   0x60,   0x60,   0xFF),
-    VertexFormat(-10.0f,    10.0f,   0x60,   0x60,   0x60,   0xFF),
-    };
-    uint32 nv = 8;
-    m_pMesh->Init(Attribs, nv, pt);
-
-    /*VertexFormat Attribs[] =
-    {
-    VertexFormat(0.0f,     0.0f,   0x30,   0x30,   0x30,   0xFF),
-    VertexFormat(-10.0f,    10.0f,   0x60,   0x60,   0x60,   0xFF),
-    VertexFormat(5.0f,     10.0f,  0x60,   0x60,   0x60,   0xFF),
-    VertexFormat(15.0f,    0.0f,   0x60,   0x60,   0x60,   0xFF),
-    VertexFormat(10.0f,    -10.0f,   0x60,   0x60,   0x60,   0xFF),
-    VertexFormat(-5.0f,    -10.0f,   0x60,   0x60,   0x60,   0xFF),
-    VertexFormat(-15.0f,    0.0f,  0x60,   0x60,   0x60,   0xFF),
-    VertexFormat(-10.0f,    10.0f,   0x60,   0x60,   0x60,   0xFF),
-    };*/
+    m_pGame = g;
+    m_pShader = sp;
+    m_pMesh = m;
+    m_Position = pos;
 }
 
 void RockObject::Update(float deltaTime, fw::Framework* p_Frame)
