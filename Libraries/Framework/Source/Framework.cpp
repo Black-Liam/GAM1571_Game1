@@ -76,7 +76,7 @@ int Framework::Run(GameCore* pGame)
 
     double prevSec = GetSystemTimeSinceGameStart();
 
-    while( !done )
+    while( !done && !m_CloseProgramRequested )
     {
         if( PeekMessage( &message, nullptr, 0, 0, PM_REMOVE ) )
         {

@@ -14,7 +14,7 @@ namespace fw {
         Framework* m_pFramework;
     public:
         GameCore(Framework* pFramework);
-        ~GameCore();
+        virtual ~GameCore();
         virtual void Init() = 0;
         virtual void Update(float deltaTime) = 0;
         virtual void Draw() = 0;

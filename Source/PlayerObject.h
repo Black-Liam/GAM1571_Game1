@@ -12,5 +12,4 @@ public:
     virtual void Update(float deltaTime, fw::Framework* p_Frame) override;
     void Draw();
     float speed = 1.0f;
-    GLuint m_VBO;
 };
