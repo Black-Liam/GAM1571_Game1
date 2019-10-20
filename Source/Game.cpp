@@ -3,17 +3,12 @@
 #include "GameObject.h"
 #include "PlayerObject.h"
 #include "RockObject.h"
-
+#include "GoalObject.h"
+#include "Camera.h"
 Game::Game(fw::Framework* pFramework) : GameCore(pFramework)
 {
     m_pFramework = pFramework;
 
-    //m_pShaders[0];
-    //m_pMeshes[0];
-    //m_pGameObjects[0];
-
-    //1 can I make one in the vector, or do I make it and pass it in?
-    //2 where should the new calls be?
 
 
 }
@@ -47,6 +42,7 @@ void Game::Init()
 
     Mesh* PlayerMesh = new Mesh();
     Mesh* RockMesh = new Mesh();
+    Mesh* GoalMesh = new Mesh();
 
     GLenum rpt = GL_TRIANGLE_FAN;
     uint32 rnv = 8;
@@ -62,6 +58,7 @@ void Game::Init()
     VertexFormat(-10.0f,    10.0f,  0x60,   0x60,   0x60,   0xFF),
     };
     RockMesh->Init(ra, rnv, rpt);
+
     GLenum ppt = GL_TRIANGLES;
     VertexFormat pa[] =
     {
@@ -96,8 +93,27 @@ void Game::Init()
     uint32 pnv = 24;
     PlayerMesh->Init(pa, pnv, ppt);
 
+    GLenum gpt = GL_TRIANGLE_FAN;
+    VertexFormat ga[] =
+    {
+    VertexFormat(0.0f,     0.0f,   0x80,   0x00,   0x00,   0xFF),
+    VertexFormat(12.0f,     -12.0f,   0x00,   0x00,   0x00,   0xFF),
+    VertexFormat(-12.0f,     -12.0f,   0x00,   0x00,   0x00,   0xFF),
+    VertexFormat(-12.0f,     4.0f,   0xff,   0x00,   0x00,   0xFF),
+    VertexFormat(-10.0f,     10.0f,   0xff,   0x00,   0x00,   0xFF),
+    VertexFormat(-6.0f,     14.0f,   0xff,   0x00,   0x00,   0xFF),
+    VertexFormat(0.0f,     16.0f,   0xff,   0x00,   0x00,   0xFF),
+    VertexFormat(6.0f,     14.0f,   0xff,   0x00,   0x00,   0xFF),
+    VertexFormat(10.0f,     10.0f,   0xff,   0x00,   0x00,   0xFF),
+    VertexFormat(12.0f,     4.0f,   0xff,   0x00,   0x00,   0xFF),
+    VertexFormat(12.0f,     -12.0f,   0x00,   0x00,   0x00,   0xFF),
+    };
+    uint32 gnv = 11;
+    GoalMesh->Init(ga, gnv, gpt);
+
     m_pMeshes.push_back(PlayerMesh);
     m_pMeshes.push_back(RockMesh);
+    m_pMeshes.push_back(GoalMesh);
 
     GameObject* m_Player = new PlayerObject();
     GameObject* m_Rock1 = new RockObject();
@@ -105,13 +121,29 @@ void Game::Init()
     GameObject* m_Rock3 = new RockObject();
     GameObject* m_Rock4 = new RockObject();
     GameObject* m_Rock5 = new RockObject();
+    GameObject* m_Goal = new GoalObject();
+    //GameObject* m_Camera = new CameraObject();
 
-    m_Player->Init(this, m_pMeshes[0], m_pShaders[0], vec2(0.0f, 0.0f));
-    m_Rock1->Init(this, m_pMeshes[1], m_pShaders[0], vec2(0.3f, 0.4f));
-    m_Rock2->Init(this, m_pMeshes[1], m_pShaders[0], vec2(0.5f, 0.1f));
-    m_Rock3->Init(this, m_pMeshes[1], m_pShaders[0], vec2(0.6f, 0.2f));
-    m_Rock4->Init(this, m_pMeshes[1], m_pShaders[0], vec2(0.4f, 0.0f));
-    m_Rock5->Init(this, m_pMeshes[1], m_pShaders[0], vec2(0.1f, 0.5f));
+    srand((unsigned int)fw::GetSystemTime());
+
+    float randCords[10];
+    for (int i = 0; i < 10; i++)
+    {
+        randCords[i] = (float)((rand() % 100) / 100.0f);
+        if (rand() % 2 == 1)
+        {
+            randCords[i] *= -1.0f;
+        }
+    }
+
+    m_Player->Init(this, m_pMeshes[0], m_pShaders[0], vec2(-0.9f, 0.9f));
+    m_Rock1->Init(this, m_pMeshes[1], m_pShaders[0], vec2(randCords[0], randCords[1]));
+    m_Rock2->Init(this, m_pMeshes[1], m_pShaders[0], vec2(randCords[2], randCords[3]));
+    m_Rock3->Init(this, m_pMeshes[1], m_pShaders[0], vec2(randCords[4], randCords[5]));
+    m_Rock4->Init(this, m_pMeshes[1], m_pShaders[0], vec2(randCords[6], randCords[7]));
+    m_Rock5->Init(this, m_pMeshes[1], m_pShaders[0], vec2(randCords[8], randCords[9]));
+    m_Goal->Init(this, m_pMeshes[2], m_pShaders[0], vec2(0.9f, -0.9f));
+    //m_Camera->CamInit(this, m_pShaders[0], vec2(0.0f, 0.0f));
 
     m_pGameObjects.push_back(m_Player);
     m_pGameObjects.push_back(m_Rock1);
@@ -119,12 +151,14 @@ void Game::Init()
     m_pGameObjects.push_back(m_Rock3);
     m_pGameObjects.push_back(m_Rock4);
     m_pGameObjects.push_back(m_Rock5);
+    m_pGameObjects.push_back(m_Goal);
+    //m_pGameObjects.push_back(m_Camera);
 }
 
 void Game::Update(float deltaTime)
 {
     //loop update objects
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 7; i++)
     {
         m_pGameObjects[i]->Update(deltaTime, m_pFramework);
     }
@@ -139,14 +173,14 @@ void Game::Draw()
     glViewport(0, 0, 600, 600);
 
     //loop draw objects
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 7; i++)
     {
         m_pGameObjects[i]->Draw();
     }
 
     glViewport(475, 25, 100, 100);
 
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 7; i++)
     {
         m_pGameObjects[i]->Draw();
     }

@@ -18,7 +18,6 @@ protected:
     const Game* m_pGame;
     Mesh* m_pMesh;
     fw::ShaderProgram* m_pShader;
-    vec2 m_Position;
     GameObjectType m_type;
 
 public:
@@ -27,6 +26,7 @@ public:
     void Init(const Game*, Mesh*, fw::ShaderProgram*, vec2);
     virtual void Update(float deltaTime, fw::Framework* p_Frame) = 0;
     void Draw();
+    vec2 m_Position;
 
     /*
     enum class Type

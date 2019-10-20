@@ -1,7 +1,7 @@
 #include "GamePCH.h"
 #include "RockObject.h"
-#include "GameObject.h"
-#include "Mesh.h"
+//#include "GameObject.h"
+//#include "Mesh.h"
 
 RockObject::RockObject()
 {
