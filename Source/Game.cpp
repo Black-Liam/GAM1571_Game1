@@ -122,7 +122,7 @@ void Game::Init()
     GameObject* m_Rock4 = new RockObject();
     GameObject* m_Rock5 = new RockObject();
     GameObject* m_Goal = new GoalObject();
-    //GameObject* m_Camera = new CameraObject();
+    CameraObject* m_Camera = new CameraObject();
 
     srand((unsigned int)fw::GetSystemTime());
 
@@ -143,7 +143,9 @@ void Game::Init()
     m_Rock4->Init(this, m_pMeshes[1], m_pShaders[0], vec2(randCords[6], randCords[7]));
     m_Rock5->Init(this, m_pMeshes[1], m_pShaders[0], vec2(randCords[8], randCords[9]));
     m_Goal->Init(this, m_pMeshes[2], m_pShaders[0], vec2(0.9f, -0.9f));
-    //m_Camera->CamInit(this, m_pShaders[0], vec2(0.0f, 0.0f));
+    m_Camera->Init(this, m_pMeshes[0], m_pShaders[0], vec2(0.0f, 0.0f));
+
+    m_Camera->Focus = m_Player;
 
     m_pGameObjects.push_back(m_Player);
     m_pGameObjects.push_back(m_Rock1);
@@ -152,7 +154,7 @@ void Game::Init()
     m_pGameObjects.push_back(m_Rock4);
     m_pGameObjects.push_back(m_Rock5);
     m_pGameObjects.push_back(m_Goal);
-    //m_pGameObjects.push_back(m_Camera);
+    m_pGameObjects.push_back(m_Camera);
 }
 
 void Game::Update(float deltaTime)
