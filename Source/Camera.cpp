@@ -19,9 +19,15 @@ void CameraObject::CamInit(const Game* g, fw::ShaderProgram* sp, vec2 pos)
 
 void CameraObject::Update(float deltaTime, fw::Framework* p_Frame)
 {
-    m_Position = Focus->m_Position;
+    if (Focus != nullptr)
+        m_Position = Focus->m_Position;
 }
 
 void CameraObject::Draw()
 {
+}
+
+void CameraObject::SetCamScale(float x, float y)
+{
+    cameraScale = vec2(x, y);
 }

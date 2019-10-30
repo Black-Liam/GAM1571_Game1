@@ -1,5 +1,6 @@
 #include "GamePCH.h"
 #include "Mesh.h"
+#include "Camera.h"
 
 void Mesh::Init(VertexFormat* vf, uint32 nv, GLenum pt)
 {
@@ -14,7 +15,7 @@ void Mesh::Init(VertexFormat* vf, uint32 nv, GLenum pt)
 
 }
 
-void Mesh::Draw(fw::ShaderProgram* p_Shader, vec2 pos)
+void Mesh::Draw(fw::ShaderProgram* p_Shader, vec2 pos, CameraObject* c)
 {
     glUseProgram(p_Shader->GetProgram());
 
@@ -36,6 +37,12 @@ void Mesh::Draw(fw::ShaderProgram* p_Shader, vec2 pos)
     glUniform1f(uXloc, pos.x);
     GLint uYloc = glGetUniformLocation(p_Shader->GetProgram(), "u_YOffset");
     glUniform1f(uYloc, pos.y);
+
+    GLint camerapos = glGetUniformLocation(p_Shader->GetProgram(), "u_CamPos");
+    glUniform2f(camerapos, c->m_Position.x, c->m_Position.y);
+
+    GLint camerasca = glGetUniformLocation(p_Shader->GetProgram(), "u_CamSca");
+    glUniform2f(camerasca, c->cameraScale.x, c->cameraScale.y);
 
     glDrawArrays(m_primType, 0, numberOfVerts);
 }

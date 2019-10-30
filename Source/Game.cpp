@@ -123,7 +123,9 @@ void Game::Init()
     GameObject* m_Rock4 = new RockObject();
     GameObject* m_Rock5 = new RockObject();
     GameObject* m_Goal = new GoalObject();
-    CameraObject* m_Camera = new CameraObject();
+    m_PlayCam = new CameraObject();
+    m_MiniCam = new CameraObject();
+
 
     srand((unsigned int)fw::GetSystemTime());
 
@@ -137,6 +139,7 @@ void Game::Init()
         }
     }
 
+
     m_Player->Init(this, m_pMeshes[0], m_pShaders[0], vec2(-0.9f, 0.9f));
     m_Rock1->Init(this, m_pMeshes[1], m_pShaders[0], vec2(randCords[0], randCords[1]));
     m_Rock2->Init(this, m_pMeshes[1], m_pShaders[0], vec2(randCords[2], randCords[3]));
@@ -144,9 +147,13 @@ void Game::Init()
     m_Rock4->Init(this, m_pMeshes[1], m_pShaders[0], vec2(randCords[6], randCords[7]));
     m_Rock5->Init(this, m_pMeshes[1], m_pShaders[0], vec2(randCords[8], randCords[9]));
     m_Goal->Init(this, m_pMeshes[2], m_pShaders[0], vec2(0.9f, -0.9f));
-    m_Camera->Init(this, nullptr, nullptr, vec2(0.0f, 0.0f));
+    m_PlayCam->Init(this, nullptr, nullptr, vec2(0.0f, 0.0f));
+    m_MiniCam->Init(this, nullptr, nullptr, vec2(0.0f, 0.0f));
 
-    m_Camera->Focus = m_Player;
+    m_PlayCam->SetCamScale(1.3f, 1.3f);
+    m_MiniCam->SetCamScale(2.0f, 2.0f);
+
+    m_PlayCam->Focus = m_Player;
 
     m_pGameObjects.push_back(m_Player);
     m_pGameObjects.push_back(m_Rock1);
@@ -155,7 +162,8 @@ void Game::Init()
     m_pGameObjects.push_back(m_Rock4);
     m_pGameObjects.push_back(m_Rock5);
     m_pGameObjects.push_back(m_Goal);
-    m_pGameObjects.push_back(m_Camera);
+    m_pGameObjects.push_back(m_PlayCam);
+    m_pGameObjects.push_back(m_MiniCam);
 }
 
 void Game::Update(float deltaTime)
@@ -170,7 +178,7 @@ void Game::Update(float deltaTime)
 
 void Game::Draw()
 {
-    glClearColor(1.0f, 0.5f, 0.75f, 1.0f); //set clear color to pink
+    glClearColor(0.1f, 0.5f, 0.1f, 1.0f); //set clear color to green
     glClear(GL_COLOR_BUFFER_BIT); //clears screen
 
     glViewport(0, 0, 600, 600);
@@ -178,14 +186,14 @@ void Game::Draw()
     //loop draw objects
     for (int i = 0; i < m_pGameObjects.size(); i++)
     {
-        m_pGameObjects[i]->Draw();
+        m_pGameObjects[i]->Draw(m_PlayCam);
     }
 
     glViewport(475, 25, 100, 100);
 
     for (int i = 0; i < m_pGameObjects.size(); i++)
     {
-        m_pGameObjects[i]->Draw();
+        m_pGameObjects[i]->Draw(m_MiniCam);
     }
 
     /*  GL_POINTS

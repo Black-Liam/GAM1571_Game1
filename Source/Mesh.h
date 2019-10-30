@@ -13,6 +13,8 @@ struct VertexFormat
         :x(X), y(Y), r(R), g(G), b(B), a(A) {}
 };
 
+class CameraObject;
+
 class Mesh
 {
 private:
@@ -21,5 +23,5 @@ private:
     uint32 numberOfVerts;
 public:
     void Init(VertexFormat* vf, uint32 nv, GLenum pt);
-    void Draw(fw::ShaderProgram*, vec2 pos);
+    void Draw(fw::ShaderProgram*, vec2 pos, CameraObject* c);
 };

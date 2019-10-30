@@ -27,6 +27,8 @@ public:
     virtual void OnEvent(fw::Event* ev) override;
 
     PlayerController* m_playCont;
+    CameraObject* m_PlayCam;
+    CameraObject* m_MiniCam;
     
     /*
     std::vector<Mesh*> m_Meshes;

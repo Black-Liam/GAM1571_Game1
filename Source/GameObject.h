@@ -10,7 +10,7 @@ enum class GameObjectType
 
 class Game;
 class Mesh;
-
+class CameraObject;
 
 class GameObject
 {
@@ -25,7 +25,7 @@ public:
     ~GameObject();
     void Init(const Game*, Mesh*, fw::ShaderProgram*, vec2);
     virtual void Update(float deltaTime, fw::Framework* p_Frame) = 0;
-    void Draw();
+    void Draw(CameraObject* c);
     vec2 m_Position;
 
     /*
