@@ -21,7 +21,8 @@ void GameObject::Init(const Game* g, Mesh* m, fw::ShaderProgram* sp, vec2 pos)
 
 void GameObject::Draw()
 {
-    m_pMesh->Draw(m_pShader, m_Position);
+    if (m_pMesh != nullptr)
+        m_pMesh->Draw(m_pShader, m_Position);
 }
 
 

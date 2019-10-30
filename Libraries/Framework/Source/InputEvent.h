@@ -26,5 +26,7 @@ namespace fw {
         vec2 m_Pos;
     public:
         InputEvent(EventType et, DeviceType d, KeyStates s, int i, vec2 p);
+        int GetID();
+        KeyStates GetState();
     };
 } //namespace fw

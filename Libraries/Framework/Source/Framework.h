@@ -4,6 +4,7 @@
 namespace fw {
 
 class GameCore;
+class EventManager;
 
 class Framework
 {
@@ -26,6 +27,8 @@ protected:
     bool m_MouseButtonStates[3];
     bool m_WindowIsActive;
     bool m_FullscreenMode;
+
+    EventManager* m_pEventManager;
 
 protected:
     void ResizeWindow(int width, int height);

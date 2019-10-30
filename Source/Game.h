@@ -1,7 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "PlayerObject.h"
-#include "RockObject.h"
+#include "PlayerController.h"
 #include "Mesh.h"
 
 //class ShaderProgram;
@@ -22,11 +21,12 @@ public:
     Game(fw::Framework* pFramework);
     ~Game();
     void Init() override;
-    void OnEvent(fw::Event* pEvent);
     void Update(float deltaTime) override;
     void Draw() override;
     GameObject* CheckCollision(GameObject*);
+    virtual void OnEvent(fw::Event* ev) override;
 
+    PlayerController* m_playCont;
     
     /*
     std::vector<Mesh*> m_Meshes;

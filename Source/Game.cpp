@@ -9,7 +9,7 @@ Game::Game(fw::Framework* pFramework) : GameCore(pFramework)
 {
     m_pFramework = pFramework;
 
-
+    m_playCont = new PlayerController;
 
 }
 
@@ -27,6 +27,7 @@ Game::~Game()
     {
         delete m_pGameObjects[i];
     }
+    delete m_playCont;
 }
 
 void Game::Init()
@@ -143,7 +144,7 @@ void Game::Init()
     m_Rock4->Init(this, m_pMeshes[1], m_pShaders[0], vec2(randCords[6], randCords[7]));
     m_Rock5->Init(this, m_pMeshes[1], m_pShaders[0], vec2(randCords[8], randCords[9]));
     m_Goal->Init(this, m_pMeshes[2], m_pShaders[0], vec2(0.9f, -0.9f));
-    m_Camera->Init(this, m_pMeshes[0], m_pShaders[0], vec2(0.0f, 0.0f));
+    m_Camera->Init(this, nullptr, nullptr, vec2(0.0f, 0.0f));
 
     m_Camera->Focus = m_Player;
 
@@ -160,7 +161,7 @@ void Game::Init()
 void Game::Update(float deltaTime)
 {
     //loop update objects
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < m_pGameObjects.size(); i++)
     {
         m_pGameObjects[i]->Update(deltaTime, m_pFramework);
     }
@@ -175,14 +176,14 @@ void Game::Draw()
     glViewport(0, 0, 600, 600);
 
     //loop draw objects
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < m_pGameObjects.size(); i++)
     {
         m_pGameObjects[i]->Draw();
     }
 
     glViewport(475, 25, 100, 100);
 
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < m_pGameObjects.size(); i++)
     {
         m_pGameObjects[i]->Draw();
     }
@@ -198,4 +199,22 @@ void Game::Draw()
         GL_QUAD_STRIP (Discontinued)
         GL_POLYGON (Discontinued)
     */
+}
+
+GameObject* Game::CheckCollision(GameObject*)
+{
+    return nullptr;
+}
+
+void Game::OnEvent(fw::Event* ev)
+{
+    if (ev->GetEventType() == fw::EventType::Input)
+    {
+        fw::InputEvent* pInputEvent = (fw::InputEvent*)ev;
+        m_playCont->OnEvent(pInputEvent);
+        
+
+
+    }
+
 }

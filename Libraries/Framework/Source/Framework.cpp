@@ -49,6 +49,7 @@ Framework::Framework()
 
 void Framework::Init(int width, int height)
 {
+
     m_InitialWindowWidth = width;
     m_InitialWindowHeight = height;
 
@@ -73,6 +74,7 @@ int Framework::Run(GameCore* pGame)
     bool done = false;
 
     pGame->Init();
+    m_pEventManager= new EventManager(pGame);
 
     double prevSec = GetSystemTimeSinceGameStart();
 
@@ -98,13 +100,14 @@ int Framework::Run(GameCore* pGame)
             double sec = GetSystemTimeSinceGameStart();
             float deltaTime = (float)(sec - prevSec);
             prevSec = sec;
-
+            m_pEventManager->ProcessQueue();
             pGame->Update(deltaTime);
             pGame->Draw();
             SwapBuffers();
         }
     }
 
+    delete m_pEventManager;
     // Truncate wParam in 64-bit mode to an int.
     return static_cast<int>( message.wParam );
 }
@@ -453,7 +456,12 @@ LRESULT CALLBACK Framework::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
             {
                 if( wParam == VK_ESCAPE && pFramework->m_EscapeButtonWillQuit )
                     pFramework->m_CloseProgramRequested = true;
+                
+                    InputEvent* down = new InputEvent
+                    (EventType::Input, DeviceType::Keyboard, KeyStates::Pressed, wParam, vec2(0.0f, 0.0f));
 
+                    pFramework->m_pEventManager->PushToQueue(down);
+                
                 pFramework->m_KeyStates[wParam] = true;
             }
         }
@@ -461,6 +469,12 @@ LRESULT CALLBACK Framework::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 
     case WM_KEYUP:
         {
+           
+                InputEvent* down = new InputEvent
+                (EventType::Input, DeviceType::Keyboard, KeyStates::Release, wParam, vec2(0.0f, 0.0f));
+
+                pFramework->m_pEventManager->PushToQueue(down);
+            
             pFramework->m_KeyStates[wParam] = false;
         }
         return 0;
