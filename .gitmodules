@@ -1,0 +1,6 @@
+[submodule "Libraries/Framework/Libraries/LodePNG"]
+	path = Libraries/Framework/Libraries/LodePNG
+	url = https://github.com/lvandeve/lodepng.git
+[submodule "Libraries/Framework/Libraries/imgui"]
+	path = Libraries/Framework/Libraries/imgui
+	url = https://github.com/ocornut/imgui.git

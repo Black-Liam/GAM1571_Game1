@@ -23,15 +23,24 @@
 #include "GL/GLExtensions.h"
 #include "GL/WGLExtensions.h"
 
+#include "../Libraries/LodePNG/lodepng.h"
+#include "../Libraries/imgui/imgui.h"
+
+#include "Utility/MyMemory.h"
+
+#include "ImGuiManager/ImGuiManager.h"
+
+#include "Utility/Helpers.h"
+#include "Utility/ShaderProgram.h"
+
 #include "Math/Vector.h"
+
+#include "Events/EventManager.h"
+#include "Events/Event.h"
+#include "Events/InputEvent.h"
+#include "Events/GameEvent.h"
 
 #include "Framework.h"
 #include "GameCore.h"
-#include "Utility/ShaderProgram.h"
-#include "Utility/Helpers.h"
-#include "Event.h"
-#include "InputEvent.h"
-#include "EventManager.h"
-
 
 #endif //__FrameworkPCH_H__

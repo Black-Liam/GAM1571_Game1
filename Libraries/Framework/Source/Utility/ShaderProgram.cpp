@@ -67,7 +67,6 @@ namespace fw
         glGetShaderiv( shaderHandle, GL_COMPILE_STATUS, &compiled );
         if( compiled == 0 )
         {
-            //If you're in here, check shaders for gibberish
             int infolen = 0;
             glGetShaderiv( shaderHandle, GL_INFO_LOG_LENGTH, &infolen );
 

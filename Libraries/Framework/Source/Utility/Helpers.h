@@ -8,6 +8,18 @@ namespace fw
     double GetSystemTime();
     double GetSystemTimeSinceGameStart();
 
+    GLuint LoadTexture(const char* filename);
+    void Flip32BitImageVertically(unsigned char* buffer, unsigned int width, unsigned int height);
+
+    template<typename T>
+    void Clamp(T& value, T min, T max)
+    {
+        if (value < min)
+            value = min;
+        else if (value > max)
+            value = max;
+    }
+
 } // namespace fw
 
 #endif //__Helpers_H__

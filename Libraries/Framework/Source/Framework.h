@@ -1,60 +1,62 @@
 #ifndef __Framework_H__
 #define __Framework_H__
 
-namespace fw {
-
-class GameCore;
-class EventManager;
-
-class Framework
+namespace fw
 {
-protected:
-    bool m_EscapeButtonWillQuit;
-    bool m_CloseProgramRequested;
+    class GameCore;
 
-    int m_InitialWindowWidth;
-    int m_InitialWindowHeight;
+    class Framework
+    {
+    protected:
+        EventManager* m_pEventManager;
 
-    int m_CurrentWindowWidth;
-    int m_CurrentWindowHeight;
+        bool m_EscapeButtonWillQuit;
+        bool m_CloseProgramRequested;
 
-    HWND m_hWnd;
-    HGLRC m_hRenderingContext;
-    HDC m_hDeviceContext;
-    HINSTANCE m_hInstance;
+        int m_InitialWindowWidth;
+        int m_InitialWindowHeight;
 
-    bool m_KeyStates[256];
-    bool m_MouseButtonStates[3];
-    bool m_WindowIsActive;
-    bool m_FullscreenMode;
+        int m_CurrentWindowWidth;
+        int m_CurrentWindowHeight;
 
-    EventManager* m_pEventManager;
+        HWND m_hWnd;
+        HGLRC m_hRenderingContext;
+        HDC m_hDeviceContext;
+        HINSTANCE m_hInstance;
 
-protected:
-    void ResizeWindow(int width, int height);
-    bool CreateGLWindow(char* title, int width, int height, char colorbits, char zbits, char stencilbits, bool fullscreenflag);
-    void KillGLWindow();
+        bool m_KeyStates[256];
+        bool m_MouseButtonStates[3];
+        bool m_WindowIsActive;
+        bool m_FullscreenMode;
 
-    static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    protected:
+        void ResizeWindow(int width, int height);
+        bool CreateGLWindow(char* title, int width, int height, char colorbits, char zbits, char stencilbits, bool fullscreenflag);
+        void KillGLWindow();
 
-public:
-    Framework();
+        static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-    void Init(int width, int height);
-    int Run(GameCore* pGame);
-    void Shutdown();
+    public:
+        Framework();
+        virtual ~Framework();
 
-    void SetWindowSize(int width, int height);
+        void Init(int width, int height);
+        int Run(GameCore* pGameCore);
+        void Shutdown();
 
-    bool IsKeyDown(int value);
-    bool IsMouseButtonDown(int id);
-    void GetMouseCoordinates(int* mx, int* my);
+        void SetWindowSize(int width, int height);
 
-    unsigned int GetWindowWidth() { return m_CurrentWindowWidth; }
-    unsigned int GetWindowHeight() { return m_CurrentWindowHeight; }
+        bool IsKeyDown(int value);
+        bool IsMouseButtonDown(int id);
+        void GetMouseCoordinates(int* mx, int* my);
 
-    void SwapBuffers();
-};
+        unsigned int GetWindowWidth() { return m_CurrentWindowWidth; }
+        unsigned int GetWindowHeight() { return m_CurrentWindowHeight; }
+
+        void SwapBuffers();
+
+        EventManager* GetEventManager() { return m_pEventManager; }
+    };
 
 } // namespace fw
 
