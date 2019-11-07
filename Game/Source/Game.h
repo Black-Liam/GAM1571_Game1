@@ -9,6 +9,8 @@ class Mesh;
 class Player;
 class PlayerController;
 
+class Tilemap;
+
 class Game : public fw::GameCore
 {
 protected:
@@ -23,6 +25,8 @@ protected:
     Player* m_pPlayer;
     Camera* m_pCamera;
     Ball* m_pBall;
+
+    Tilemap* m_pTilemap;        //how and what to include?
 
     PlayerController* m_pController;
 

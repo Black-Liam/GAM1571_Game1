@@ -23,6 +23,7 @@ public:
     void GenerateTriangle();
     void GenerateCircle();
     void GeneratePlayer();
+    void GenerateSquare(float sideLength);
 };
 
 #endif //__Mesh_H__

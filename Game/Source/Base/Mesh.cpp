@@ -172,3 +172,19 @@ void Mesh::GeneratePlayer()
     };
     Init(pa, 24, GL_TRIANGLES);
 }
+
+void Mesh::GenerateSquare(float sideLength)
+{
+    VertexFormat vertices[4];
+    for (int i = 0; i < 4; i++)
+    {
+        float h = i / 2;
+        float w = i % 2;
+        float x = w * sideLength;
+        float y = h * sideLength;
+        vertices[i] = VertexFormat(x, y, 255, 255, 255, 255, w, h);
+    }
+
+    Init(vertices, 4, GL_TRIANGLE_STRIP);
+
+}

@@ -7,6 +7,7 @@
 #include "GameObjects/Camera.h"
 #include "GameObjects/Player.h"
 #include "GameObjects/PlayerController.h"
+#include "Tiles/Tilemap.h"
 
 using namespace fw;
 
@@ -20,7 +21,7 @@ Game::Game(Framework* pFramework)
     m_pMeshPlayer = nullptr;
     m_pMeshCircle = nullptr;
     m_TextureBall = 0;
-
+    m_pTilemap = nullptr;
     m_pPlayer = nullptr;
     m_pCamera = nullptr;
     m_pBall = nullptr;
@@ -40,6 +41,8 @@ Game::~Game()
 
     delete m_pMeshPlayer;
     delete m_pMeshCircle;
+
+    delete m_pTilemap;
 
     delete m_pShaderColor;
     delete m_pShaderTexture;
@@ -65,6 +68,8 @@ void Game::Init()
 
     m_pMeshCircle = new Mesh();
     m_pMeshCircle->GenerateCircle();
+
+    m_pTilemap = new Tilemap();
 
     // Load our textures.
     m_TextureBall = LoadTexture( "Data/Textures/SoccerBall.png" );
@@ -105,6 +110,7 @@ void Game::Draw()
     // Draw our game objects.
     m_pPlayer->Draw( m_pCamera );
     m_pBall->Draw( m_pCamera );
+    m_pTilemap->Draw();
 
     m_pImGuiManager->EndFrame();
 }

@@ -4,7 +4,10 @@
 //1 for each different looking tile
 enum class TileTypes
 {
-
+    TT_Ground,
+    TT_Wall,
+    TT_Water,
+    TT_Max
 };
 
 //what does the tile do + has a mesh & Texture ids
@@ -18,9 +21,13 @@ struct TileProperties
 //2D array of TPs, plus functions that draws them
 class Tilemap
 {
-    TileProperties** myMap;
+public:
+    TileProperties* myProperties;
+    TileTypes* pLayout;
+    float tileSize = 1.0f;
     //vec2 origin;
     Tilemap();
+    ~Tilemap();
     void Draw();
 };
 
