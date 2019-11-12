@@ -110,7 +110,7 @@ void Game::Draw()
     // Draw our game objects.
     m_pPlayer->Draw( m_pCamera );
     m_pBall->Draw( m_pCamera );
-    m_pTilemap->Draw();
+    m_pTilemap->Draw(m_pCamera, m_pShaderTexture, vec2(50, 50));
 
     m_pImGuiManager->EndFrame();
 }

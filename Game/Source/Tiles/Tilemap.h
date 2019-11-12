@@ -10,9 +10,11 @@ enum class TileTypes
     TT_Max
 };
 
+
 //what does the tile do + has a mesh & Texture ids
 struct TileProperties
 {
+public:
     bool canWalk;
     class Mesh* tileShape;
     GLuint texture;
@@ -23,11 +25,11 @@ class Tilemap
 {
 public:
     TileProperties* myProperties;
-    TileTypes* pLayout;
+    int* pLayout;
     float tileSize = 1.0f;
     //vec2 origin;
     Tilemap();
     ~Tilemap();
-    void Draw();
+    void Draw(class Camera* view, fw::ShaderProgram* pShader, fw::vec2 pos);
 };
 

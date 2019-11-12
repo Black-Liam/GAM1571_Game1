@@ -15,6 +15,7 @@ namespace fw
         vec2(float nx, float ny) { x = nx; y = ny; }
 
         vec2 operator-(const vec2& o) const { return vec2( x - o.x, y - o.y ); }
+        vec2 operator+(const vec2& o) const { return vec2(x + o.x, y + o.y); }
         vec2 operator*(float o) const { return vec2( x * o, y * o ); }
 
         void operator+=(const vec2& o) { x += o.x, y += o.y; }
