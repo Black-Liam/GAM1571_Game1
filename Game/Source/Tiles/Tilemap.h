@@ -26,7 +26,7 @@ class Tilemap
 public:
     TileProperties* myProperties;
     int* pLayout;
-    float tileSize = 1.0f;
+    float tileSize = 5.0f;
     //vec2 origin;
     Tilemap();
     ~Tilemap();

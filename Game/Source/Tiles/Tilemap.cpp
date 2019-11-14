@@ -61,7 +61,7 @@ void Tilemap::Draw(Camera* view, fw::ShaderProgram* pShader, fw::vec2 pos)      
         {
             for (int j = 0; j < 8; j++)
             {
-                int layoutLocation = (i * j) + j;
+                int layoutLocation = (i * 8) + j;
                 int propertiesLocation = (int)pLayout[layoutLocation];
                 myProperties[propertiesLocation].tileShape->Draw(view, pShader, pos + fw::vec2(j * tileSize, i * tileSize), myProperties[propertiesLocation].texture);
 
