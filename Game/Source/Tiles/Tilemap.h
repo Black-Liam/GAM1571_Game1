@@ -2,7 +2,7 @@
 #include "GamePCH.h"
 
 //1 for each different looking tile
-enum class TileTypes
+enum class TileType
 {
     TT_Ground,
     TT_Wall,
@@ -15,9 +15,10 @@ enum class TileTypes
 struct TileProperties
 {
 public:
-    bool canWalk;
-    class Mesh* tileShape;
-    GLuint texture;
+    Mesh* m_pMesh;
+    fw::ShaderProgram* m_pShader;
+    GLuint m_TextureID;
+    bool m_IsWalkable;
 };
 
 //2D array of TPs, plus functions that draws them
@@ -25,10 +26,13 @@ class Tilemap
 {
 public:
     TileProperties* myProperties;
-    int* pLayout;
-    float tileSize = 5.0f;
-    //vec2 origin;
-    Tilemap();
+    TileType* pLayout;
+    float tileHeight = 5.0f;
+    float tileWidth = 5.0f;
+    int height = 5;
+    int width = 8;
+
+    Tilemap(char* filename);
     ~Tilemap();
     void Draw(class Camera* view, fw::ShaderProgram* pShader, fw::vec2 pos);
 };

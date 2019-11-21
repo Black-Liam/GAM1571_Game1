@@ -60,6 +60,8 @@ project "Framework"
         "Libraries/Framework/Libraries/imgui/*.h",
         "Libraries/Framework/Libraries/LodePNG/lodepng.cpp",
         "Libraries/Framework/Libraries/LodePNG/lodepng.h",
+        "Libraries/Framework/Libraries/cJSON/cJSON.c",
+        "Libraries/Framework/Libraries/cJSON/cJSON.h",
     }
 
    filter "configurations:Debug"
