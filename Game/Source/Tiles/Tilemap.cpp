@@ -30,19 +30,19 @@ Tilemap::Tilemap(char* filename)
 
     cJSON* jLayout = cJSON_GetObjectItem(jRoot, "layout");
     int sizeY = cJSON_GetArraySize(jLayout);
-    assert(sizeY == m_MapSize.y);
+    assert(sizeY == height);
 
     for (int y = 0; y < sizeY; y++)
     {
         cJSON* jRow = cJSON_GetArrayItem(jLayout, y);
         int sizeX = cJSON_GetArraySize(jRow);
-        assert(sizeX == m_MapSize.x);
+        assert(sizeX == width);
 
         for (int x = 0; x < sizeX; x++)
         {
             TileType type = (TileType)cJSON_GetArrayItem(jRow, x)->valueint;
 
-            int index = y * m_MapSize.x + x;
+            int index = y * width + x;
             pLayout[index] = type;
         }
     }
@@ -55,7 +55,7 @@ Tilemap::Tilemap(char* filename)
     for (int i = 0; i < TTM; i++)
     {
         myProperties[i].m_pMesh = new Mesh();
-        myProperties[i].m_pMesh->GenerateSquare(tileSize);
+        myProperties[i].m_pMesh->GenerateSquare(tileHeight);
     }
 
     myProperties[TT0].m_IsWalkable = true;
@@ -94,13 +94,17 @@ void Tilemap::Draw(Camera* view, fw::ShaderProgram* pShader, fw::vec2 pos)      
     if (pLayout != nullptr)
     {
 
-        for (int i = 0; i < 5; i++)
+        for (int y = 0; y < height; y++)
         {
-            for (int j = 0; j < 8; j++)
+            for (int x = 0; x < width; x++)
             {
-                int layoutLocation = (i * 8) + j;
-                int propertiesLocation = (int)pLayout[layoutLocation];
-                myProperties[propertiesLocation].m_pMesh->Draw(view, pShader, pos + fw::vec2(j * tileSize, i * tileSize), myProperties[propertiesLocation].m_TextureID);
+                int tileIndex = (y * width) + x;
+                TileType propertiesLocation = pLayout[tileIndex];
+                TileProperties* pProp = &myProperties[tileIndex];
+                fw::vec2 offset(x * tileWidth, y * tileHeight);
+
+
+                pProp.m_pMesh->Draw(view, pShader, pos + offset, myProperties[propertiesLocation].m_TextureID);
 
             }
         }

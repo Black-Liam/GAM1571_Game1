@@ -69,7 +69,7 @@ void Game::Init()
     m_pMeshCircle = new Mesh();
     m_pMeshCircle->GenerateCircle();
 
-    m_pTilemap = new Tilemap();
+    m_pTilemap = new Tilemap("Data/JSON/Layout.json");
 
     // Load our textures.
     m_TextureBall = LoadTexture( "Data/Textures/SoccerBall.png" );
